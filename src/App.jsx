@@ -5,8 +5,13 @@ import Home from "./pages/Home";
 import Movie from "./pages/Movie";
 import Session from "./pages/Session";
 import Success from "./pages/Success";
+import NotFound from "./pages/NotFound";
 
-import Header from "../components/Header";
+import Header from "./components/Header";
+
+import './css/normalize.css';
+import './css/style.css';
+import './components/Header/style.css';
 
 
 export default function App() {
