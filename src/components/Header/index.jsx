@@ -10,7 +10,7 @@ export default function Header() {
 
 const Title = styled.header`
     
-    position: absolute;
+    position: fixed;
     width: 100vw;
     height: 67px;
     left: 0px;
