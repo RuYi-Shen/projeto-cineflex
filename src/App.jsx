@@ -11,8 +11,6 @@ import Header from "./components/Header";
 
 import './css/normalize.css';
 import './css/style.css';
-import './components/Header/style.css';
-
 
 export default function App() {
     return (
