@@ -8,8 +8,7 @@ import Loading from "../../components/Loading";
 export default function Movie() {
     const [movieInfo, setMovieInfo] = useState({});
     const [sessions,setSessions] = useState([]);
-    const params = useParams();
-    const { id } = params;
+    const { id } = useParams();
     
     useEffect(() => {
         axios.get(`https://mock-api.driven.com.br/api/v5/cineflex/movies/${id}/showtimes`)
