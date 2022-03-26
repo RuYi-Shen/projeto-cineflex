@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import axios from "axios";
-import loading from "../../assets/loading.gif";
+import Loading from "../../components/Loading";
 
 export default function Home() {
     const [movies, setMovies] = useState([]);
@@ -16,24 +17,27 @@ export default function Home() {
             });
     }, []);
 
-    return movies !== [] ? ( 
+    return movies.length !== 0 ? ( 
         <Main>
             <h2>Selecione o filme</h2>
             <section>
                 {
                     movies.map(movie => {
                         const {posterURL, title, id} = movie;
+                        const link = `/movie/${id}`;
                         return (
-                            <div className="poster" key={id}>
-                                <img src={posterURL} alt={title} />
-                            </div>
+                            <Link to={link}>
+                                <div className="poster" key={id}>
+                                    <img src={posterURL} alt={title} />
+                                </div>
+                            </Link>
                         );
                     })
                 }
             </section>
         </Main>
     ) : (
-        <img src={loading} alt="loading" />
+        <Loading />
     );
 }
 

@@ -61,6 +61,7 @@ export default function Movie() {
 const Main = styled.main`
 
     margin-top: 67px;
+    margin-bottom: 117px;
     display: flex;
     flex-direction: column;
     align-items: center;
