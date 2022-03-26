@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { useState, useEffect } from "react";
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import axios from "axios";
 import Footer from "../../components/Footer";
 import Loading from "../../components/Loading";
@@ -36,7 +36,9 @@ export default function Movie() {
                                         {showtimes.map(showtime => {
                                             const {id, name} = showtime;
                                             return (
-                                                <button key={id}>{name}</button>
+                                                <Link to={`/session/${id}`} key={id}>
+                                                    <button>{name}</button>
+                                                </Link>
                                             );
                                         })}
                                     </div>
@@ -84,6 +86,7 @@ const Main = styled.main`
     }
     .sessions {
         width: 100vw;
+        max-width: 500px;
         padding: 0 23px;
 
         .session{
@@ -121,7 +124,11 @@ const Main = styled.main`
                     text-align: center;
                     letter-spacing: 0.02em;
 
-                    color: #FFFFFF;                
+                    color: #FFFFFF;  
+                    
+                    &:hover {
+                        cursor: pointer;
+                    }
                 }
             }
         }
