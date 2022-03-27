@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import axios from "axios";
+
 import Loading from "../../components/Loading";
 
 export default function Home() {
@@ -17,13 +18,13 @@ export default function Home() {
             });
     }, []);
 
-    return movies.length !== 0 ? ( 
+    return movies.length !== 0 ? (
         <Main>
             <h2>Selecione o filme</h2>
             <section>
                 {
                     movies.map(movie => {
-                        const {posterURL, title, id} = movie;
+                        const { posterURL, title, id } = movie;
                         const link = `/movie/${id}`;
                         return (
                             <Link to={link} key={id}>
@@ -40,6 +41,9 @@ export default function Home() {
         <Loading />
     );
 }
+
+
+/**************************** css ****************************/
 
 const Main = styled.main`
 
@@ -66,6 +70,7 @@ const Main = styled.main`
 
         color: #293845;
     }
+
     section {
         width: 100vw;
 

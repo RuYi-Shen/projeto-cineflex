@@ -1,15 +1,16 @@
-import styled from "styled-components";
 import { useState, useEffect } from "react";
 import { useParams, Link } from 'react-router-dom';
+import styled from "styled-components";
 import axios from "axios";
+
 import Footer from "../../components/Footer";
 import Loading from "../../components/Loading";
 
 export default function Movie() {
     const [movieInfo, setMovieInfo] = useState({});
-    const [sessions,setSessions] = useState([]);
+    const [sessions, setSessions] = useState([]);
     const { id } = useParams();
-    
+
     useEffect(() => {
         axios.get(`https://mock-api.driven.com.br/api/v5/cineflex/movies/${id}/showtimes`)
             .then(response => {
@@ -28,13 +29,13 @@ export default function Movie() {
                 {
                     sessions.length !== 0 ? (
                         sessions.map(session => {
-                            const {id, weekday, date, showtimes} = session;
+                            const { id, weekday, date, showtimes } = session;
                             return (
                                 <div className="session" key={id}>
                                     <p>{weekday} - {date}</p>
                                     <div className="showtimes">
                                         {showtimes.map(showtime => {
-                                            const {id, name} = showtime;
+                                            const { id, name } = showtime;
                                             return (
                                                 <Link to={`/session/${id}`} key={id}>
                                                     <button>{name}</button>
@@ -46,23 +47,27 @@ export default function Movie() {
                             );
                         })
                     ) :
-                    (
-                        <p>Sem horários disponíveis</p>
-                    )
+                        (
+                            <p>Sem horários disponíveis</p>
+                        )
                 }
             </section>
-            <Footer movieInfo={movieInfo} sessionInfo={""}/>
+            <Footer movieInfo={movieInfo} sessionInfo={""} />
         </Main>
     ) :
-    (
-        <Loading />
-    )
+        (
+            <Loading />
+        )
 }
+
+
+/**************************** css ****************************/
 
 const Main = styled.main`
 
     margin-top: 67px;
     margin-bottom: 117px;
+
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -84,6 +89,7 @@ const Main = styled.main`
 
         color: #293845;
     }
+
     .sessions {
         width: 100vw;
         max-width: 500px;

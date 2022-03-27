@@ -1,7 +1,8 @@
-import styled from "styled-components";
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from 'react-router-dom';
+import styled from "styled-components";
 import axios from "axios";
+
 import Footer from "../../components/Footer";
 import Loading from "../../components/Loading";
 
@@ -9,13 +10,13 @@ export default function Session() {
     const [sessionInfo, setSessionInfo] = useState({});
     const [seats, setSeats] = useState([]);
     const [selectedSeats, setSelectedSeats] = useState([]);
+
+    const navigate = useNavigate();
     const { id } = useParams();
 
     const [name, setName] = useState("");
     const [cpf, setCpf] = useState("");
     const [validCpf, setValidCpf] = useState(true);
-
-    let navigate = useNavigate();
 
     const nameRegex = "^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$";
     //const cpfRegex = "^(([0-9]{3}.[0-9]{3}.[0-9]{3}-[0-9]{2}))$";
@@ -25,37 +26,37 @@ export default function Session() {
         let sum;
         let rest;
         sum = 0;
-        if (cpf === "00000000000") {setValidCpf(false); return}
+        if (cpf === "00000000000") { setValidCpf(false); return }
         for (let i = 1; i <= 9; i++) sum = sum + parseInt(cpf.substring(i - 1, i)) * (11 - i);
         rest = (sum * 10) % 11;
         if ((rest === 10) || (rest === 11)) rest = 0;
-        if (rest !== parseInt(cpf.substring(9, 10))) {setValidCpf(false); return}
+        if (rest !== parseInt(cpf.substring(9, 10))) { setValidCpf(false); return }
         sum = 0;
         for (let i = 1; i <= 10; i++) sum = sum + parseInt(cpf.substring(i - 1, i)) * (12 - i);
         rest = (sum * 10) % 11;
         if ((rest === 10) || (rest === 11)) rest = 0;
-        if (rest !== parseInt(cpf.substring(10, 11))) {setValidCpf(false); return}
+        if (rest !== parseInt(cpf.substring(10, 11))) { setValidCpf(false); return }
         setValidCpf(true); return
     }
 
     function bookSeat(e) {
         e.preventDefault();
         if (validCpf && selectedSeats.length > 0) {
-            navigate("../success", {state: { name: name, cpf: cpf , session: sessionInfo, seats: [...selectedSeats].sort(function(a, b){return a-b})}});
+            navigate("../success", { state: { name: name, cpf: cpf, session: sessionInfo, seats: [...selectedSeats].sort(function (a, b) { return a - b }) } });
         }
         else if (selectedSeats.length === 0) alert("Selecione ao menos um assento");
     }
 
-    function select(index){
-        let aux = [...seats]; 
+    function select(index) {
+        let aux = [...seats];
         if (seats[index].isAvailable && aux[index].name !== "selected") {
             aux[index].name = "selected";
-            setSelectedSeats([...selectedSeats, (index+1)]);
+            setSelectedSeats([...selectedSeats, (index + 1)]);
             setSeats(aux);
         }
-        else if(aux[index].name === "selected"){
-            aux[index].name = `${index+1}`;
-            setSelectedSeats([...selectedSeats].filter(seat => seat !== index+1));
+        else if (aux[index].name === "selected") {
+            aux[index].name = `${index + 1}`;
+            setSelectedSeats([...selectedSeats].filter(seat => seat !== index + 1));
             setSeats(aux);
         }
     }
@@ -94,18 +95,18 @@ export default function Session() {
             <section className="seats">
                 {
                     seats.length !== 0 ? (
-                        seats.map((seat,index) => {
+                        seats.map((seat, index) => {
                             const { id, name, isAvailable } = seat;
                             return !selected(name) ? (
-                                <Div className="seat" key={id} onClick={()=>select(index)} color={setColor(isAvailable)}>
-                                    <p>{`${index+1}`.padStart(2, "0")}</p>
+                                <Div className="seat" key={id} onClick={() => select(index)} color={setColor(isAvailable)}>
+                                    <p>{`${index + 1}`.padStart(2, "0")}</p>
                                 </Div>
                             ) :
-                            (
-                                <Div className="seat" key={id} onClick={()=>select(index)} color={setColor("selected")}>
-                                    <p>{`${index+1}`.padStart(2, "0")}</p>
-                                </Div>
-                            )
+                                (
+                                    <Div className="seat" key={id} onClick={() => select(index)} color={setColor("selected")}>
+                                        <p>{`${index + 1}`.padStart(2, "0")}</p>
+                                    </Div>
+                                )
                         })
                     ) :
                         (
@@ -131,8 +132,8 @@ export default function Session() {
                 <label htmlFor="name">Nome do comprador:</label>
                 <input type="text" id="name" name="name" maxLength="40" minLength="3" pattern={nameRegex} placeholder="Digite seu nome..." required value={name} onChange={e => setName(e.target.value)} />
                 <label htmlFor="cpf">CPF do comprador:</label>
-                <input type="text" id="cpf" name="cpf" maxLength="14" minLength="11" pattern="^[0-9.-]*$" placeholder="Digite seu CPF..." required value={cpf} onChange={e => {setCpf(e.target.value); validateCpf(e.target.value)}} />
-                { !validCpf ?
+                <input type="text" id="cpf" name="cpf" maxLength="14" minLength="11" pattern="^[0-9.-]*$" placeholder="Digite seu CPF..." required value={cpf} onChange={e => { setCpf(e.target.value); validateCpf(e.target.value) }} />
+                {!validCpf ?
                     <p>CPF inválido</p> :
                     <></>
                 }
@@ -148,6 +149,8 @@ export default function Session() {
         )
 }
 
+
+/**************************** css ****************************/
 
 const Main = styled.main`
 

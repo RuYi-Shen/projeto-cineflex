@@ -1,25 +1,26 @@
-import styled from 'styled-components';
 import { useState, useEffect } from 'react';
 import { useLocation, Link } from 'react-router-dom';
-import Loading from '../../components/Loading';
+import styled from 'styled-components';
 import axios from "axios";
 
+import Loading from '../../components/Loading';
+
 export default function Success() {
-    const {state} = useLocation();
-    const {name, cpf, session, seats} = state;
-    const {name:time, day, movie} = session;
+    const { state } = useLocation();
+    const { name, cpf, session, seats } = state;
+    const { name: time, day, movie } = session;
 
     const [booked, setBooked] = useState(false);
 
-    function formatCpf(cpf){
+    function formatCpf(cpf) {
         cpf = cpf.replace(/[^\d]/g, "");
         return cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
     }
 
     useEffect(() => {
         let ids = [];
-        session.seats.forEach(seat=>{if(seat.name === "selected"){ids.push(seat.id)}});
-        axios.post(`https://mock-api.driven.com.br/api/v5/cineflex/seats/book-many`, 
+        session.seats.forEach(seat => { if (seat.name === "selected") { ids.push(seat.id) } });
+        axios.post(`https://mock-api.driven.com.br/api/v5/cineflex/seats/book-many`,
             {
                 ids: ids,
                 name: name,
@@ -45,7 +46,7 @@ export default function Success() {
                 </div>
                 <div className="info">
                     <h3>Ingressos</h3>
-                    {seats.map(seat=>{return <p key={seat}>Assento {seat}</p>})}
+                    {seats.map(seat => { return <p key={seat}>Assento {seat}</p> })}
                 </div>
                 <div className="info">
                     <h3>Comprador</h3>
@@ -56,13 +57,15 @@ export default function Success() {
             <Link to="/">
                 <button>Voltar pra Home</button>
             </Link>
-        </Main>        
-    ) : 
-    (
-        <Loading />
-    )
+        </Main>
+    ) :
+        (
+            <Loading />
+        )
 }
 
+
+/**************************** css ****************************/
 
 const Main = styled.main`
 
@@ -89,6 +92,7 @@ const Main = styled.main`
 
         color: #247A6B;
     }
+    
     .checkout-info {
         width: 100vw;
         max-width: 500px;

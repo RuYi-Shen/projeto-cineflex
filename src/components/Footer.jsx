@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export default function Footer({movieInfo, sessionInfo}) {
+export default function Footer({ movieInfo, sessionInfo }) {
     const { title, posterURL } = movieInfo;
 
     return (
@@ -10,16 +10,20 @@ export default function Footer({movieInfo, sessionInfo}) {
             </div>
             <div className="session-info">
                 <h2>{title}</h2>
-                {sessionInfo ? 
+                {sessionInfo ?
                     <h2>{sessionInfo.day.weekday} - {sessionInfo.name}</h2>
-                :
+                    :
                     <></>}
             </div>
         </Info>
     )
 }
 
+
+/**************************** css ****************************/
+
 const Info = styled.footer`
+
     position: fixed;
     width: 100vw;
     height: 117px;

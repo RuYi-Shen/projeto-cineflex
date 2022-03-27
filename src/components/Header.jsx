@@ -1,5 +1,6 @@
-import styled from "styled-components";
 import { useNavigate, useLocation } from 'react-router-dom';
+import styled from "styled-components";
+
 import backIcon from "../assets/back-icon.png";
 
 export default function Header() {
@@ -8,10 +9,10 @@ export default function Header() {
 
     return (
         <Title>
-            { pathname !== "/" ?
-                <button onClick={()=>navigate(-1)}>
+            {pathname !== "/" ?
+                <button onClick={() => navigate(-1)}>
                     <img src={backIcon} alt="back-icon" />
-                </button> 
+                </button>
                 :
                 <></>
             }
@@ -20,8 +21,11 @@ export default function Header() {
     );
 }
 
+
+/**************************** css ****************************/
+
 const Title = styled.header`
-    
+
     position: fixed;
     width: 100vw;
     height: 67px;
