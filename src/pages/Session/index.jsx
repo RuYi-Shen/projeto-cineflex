@@ -22,7 +22,7 @@ export default function Session() {
         for (let i = 1; i <= 9; i++) sum = sum + parseInt(cpf.substring(i - 1, i)) * (11 - i);
         rest = (sum * 10) % 11;
         if ((rest === 10) || (rest === 11)) rest = 0;
-        if (rest != parseInt(cpf.substring(9, 10))) {setValidCpf(false); return}
+        if (rest !== parseInt(cpf.substring(9, 10))) {setValidCpf(false); return}
         sum = 0;
         for (let i = 1; i <= 10; i++) sum = sum + parseInt(cpf.substring(i - 1, i)) * (12 - i);
         rest = (sum * 10) % 11;
@@ -37,6 +37,25 @@ export default function Session() {
             alert("CPF inválido");
         }
         else alert("CPF válido");
+    }
+
+    function select(index){
+        let aux = [...seats]; 
+        if (seats[index].isAvailable && aux[index].name !== "selected") {
+            aux[index].name = "selected";
+            setSeats(aux);
+        }
+        else if(aux[index].name === "selected"){
+            aux[index].name = `${index+1}`;
+            setSeats(aux);
+        }
+    }
+
+    function selected(name) {
+        if (name === "selected") {
+            return true;
+        }
+        return false;
     }
 
     useEffect(() => {
@@ -66,13 +85,18 @@ export default function Session() {
             <section className="seats">
                 {
                     seats.length !== 0 ? (
-                        seats.map(seat => {
+                        seats.map((seat,index) => {
                             const { id, name, isAvailable } = seat;
-                            return (
-                                <Div className="seat" key={id} color={setColor(isAvailable)}>
-                                    <p>{name.padStart(2, "0")}</p>
+                            return !selected(name) ? (
+                                <Div className="seat" key={id} onClick={()=>select(index)} color={setColor(isAvailable)}>
+                                    <p>{`${index+1}`.padStart(2, "0")}</p>
                                 </Div>
-                            );
+                            ) :
+                            (
+                                <Div className="seat" key={id} onClick={()=>select(index)} color={setColor("selected")}>
+                                    <p>{`${index+1}`.padStart(2, "0")}</p>
+                                </Div>
+                            )
                         })
                     ) :
                         (
@@ -178,6 +202,10 @@ const Main = styled.main`
             letter-spacing: 0.04em;
 
             color: #000000;
+
+            &:hover {
+                cursor: pointer;
+            }
         }
     }
     
