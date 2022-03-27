@@ -25,6 +25,8 @@ const Info = styled.footer`
     display: flex;
     align-items: center;
 
+    z-index: 1;
+
     .poster {
         width: 64px;
         height: 89px;

@@ -22,6 +22,7 @@ const Title = styled.header`
 
     background: #C3CFD9;
 
+    z-index: 1;
 
     h1 {
         font-family: 'Roboto';

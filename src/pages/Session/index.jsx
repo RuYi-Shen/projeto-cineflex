@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { useState, useEffect } from "react";
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from "axios";
 import Footer from "../../components/Footer";
 import Loading from "../../components/Loading";
@@ -8,13 +8,20 @@ import Loading from "../../components/Loading";
 export default function Session() {
     const [sessionInfo, setSessionInfo] = useState({});
     const [seats, setSeats] = useState([]);
+    const [selectedSeats, setSelectedSeats] = useState([]);
     const { id } = useParams();
 
     const [name, setName] = useState("");
     const [cpf, setCpf] = useState("");
     const [validCpf, setValidCpf] = useState(true);
 
+    let navigate = useNavigate();
+
+    const nameRegex = "^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$";
+    const cpfRegex = "^(([0-9]{3}.[0-9]{3}.[0-9]{3}-[0-9]{2}))$";
+
     function validateCpf(cpf) {
+        cpf = cpf.replace(/[^\d]/g, "");
         let sum;
         let rest;
         sum = 0;
@@ -33,20 +40,22 @@ export default function Session() {
 
     function reserveSeat(e) {
         e.preventDefault();
-        if (!validCpf) {
-            alert("CPF inválido");
+        if (validCpf && selectedSeats.length > 0) {
+            navigate("../success", {state: { name: name, cpf: cpf , session: sessionInfo, seats: [...selectedSeats].sort(function(a, b){return a-b})}});
         }
-        else alert("CPF válido");
+        else if (selectedSeats.length === 0) alert("Selecione ao menos um assento");
     }
 
     function select(index){
         let aux = [...seats]; 
         if (seats[index].isAvailable && aux[index].name !== "selected") {
             aux[index].name = "selected";
+            setSelectedSeats([...selectedSeats, (index+1)]);
             setSeats(aux);
         }
         else if(aux[index].name === "selected"){
             aux[index].name = `${index+1}`;
+            setSelectedSeats([...selectedSeats].filter(seat => seat !== index+1));
             setSeats(aux);
         }
     }
@@ -120,9 +129,9 @@ export default function Session() {
             </div>
             <form onSubmit={reserveSeat}>
                 <label htmlFor="name">Nome do comprador:</label>
-                <input type="text" id="name" name="name" maxLength="40" minLength="3" pattern="^[a-zA-Z]+$" placeholder="Digite seu nome..." required value={name} onChange={e => setName(e.target.value)} />
+                <input type="text" id="name" name="name" maxLength="40" minLength="3" pattern={nameRegex} placeholder="Digite seu nome..." required value={name} onChange={e => setName(e.target.value)} />
                 <label htmlFor="cpf">CPF do comprador:</label>
-                <input type="text" id="cpf" name="cpf" maxLength="11" minLength="11" pattern="^[0-9]*$" placeholder="Digite seu CPF..." required value={cpf} onChange={e => {setCpf(e.target.value); validateCpf(e.target.value)}} />
+                <input type="text" id="cpf" name="cpf" maxLength="14" minLength="11" pattern="^[0-9.-]*$" placeholder="Digite seu CPF..." required value={cpf} onChange={e => {setCpf(e.target.value); validateCpf(e.target.value)}} />
                 { !validCpf ?
                     <p>CPF inválido</p> :
                     <></>
@@ -336,4 +345,4 @@ const Main = styled.main`
 const Div = styled.div`
     border: 1px solid ${props => props.color.borderColor};
     background-color: ${props => props.color.backgroundColor};
-    `;
+`;
