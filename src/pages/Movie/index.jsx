@@ -51,7 +51,7 @@ export default function Movie() {
                     )
                 }
             </section>
-            <Footer movieInfo={movieInfo}/>
+            <Footer movieInfo={movieInfo} sessionInfo={""}/>
         </Main>
     ) :
     (

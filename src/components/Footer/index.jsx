@@ -1,13 +1,20 @@
 import styled from "styled-components";
 
-export default function Footer({movieInfo}) {
+export default function Footer({movieInfo, sessionInfo}) {
     const { id, title, posterURL } = movieInfo;
+
     return (
         <Info>
             <div className="poster">
                 <img src={posterURL} alt={title} />
             </div>
-            <h2>{title}</h2>
+            <div className="session-info">
+                <h2>{title}</h2>
+                {sessionInfo ? 
+                    <h2>{sessionInfo.day.weekday} - {sessionInfo.name}</h2>
+                :
+                    <></>}
+            </div>
         </Info>
     )
 }
@@ -49,17 +56,29 @@ const Info = styled.footer`
         }
     }
 
-    h2 {
-        font-family: 'Roboto';
-        font-style: normal;
-        font-weight: 400;
-        font-size: 26px;
-        line-height: 30px;
+    .session-info {
+        height: 100%;
         display: flex;
-        text-align: left;
-        justify-content: start;
+        flex-direction: column;
+        justify-content: center;
         align-items: center;
+        
+        h2 {
+            height: 30px;
+            width: 100%;
+            font-family: 'Roboto';
+            font-style: normal;
+            font-weight: 400;
+            font-size: 5vw;
+            line-height: 15px;
+            display: flex;
+            text-align: left;
+            justify-content: start;
+            align-items: center;
 
-        color: #293845;
+            margin: 2px 4px;;
+
+            color: #293845;
+        }
     }
 `;
