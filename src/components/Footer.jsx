@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export default function Footer({movieInfo, sessionInfo}) {
-    const { id, title, posterURL } = movieInfo;
+    const { title, posterURL } = movieInfo;
 
     return (
         <Info>

@@ -17,7 +17,8 @@ export default function Success() {
     }
 
     useEffect(() => {
-        let ids = session.seats.map(seat=>{if(seat.name === "selected"){return seat.id}});
+        let ids = [];
+        session.seats.forEach(seat=>{if(seat.name === "selected"){ids.push(seat.id)}});
         axios.post(`https://mock-api.driven.com.br/api/v5/cineflex/seats/book-many`, 
             {
                 ids: ids,
@@ -31,7 +32,7 @@ export default function Success() {
                 console.log(error);
                 alert("Erro ao reservar os assentos");
             });
-    }, []);
+    }, [name, cpf, session.seats]);
 
     return booked ? (
         <Main>

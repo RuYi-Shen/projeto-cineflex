@@ -19,7 +19,7 @@ export default function Movie() {
             .catch(error => {
                 console.log(error);
             });
-    }, []);
+    }, [id]);
 
     return Object.keys(movieInfo).length !== 0 ? (
         <Main>

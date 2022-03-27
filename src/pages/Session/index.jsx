@@ -18,7 +18,7 @@ export default function Session() {
     let navigate = useNavigate();
 
     const nameRegex = "^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$";
-    const cpfRegex = "^(([0-9]{3}.[0-9]{3}.[0-9]{3}-[0-9]{2}))$";
+    //const cpfRegex = "^(([0-9]{3}.[0-9]{3}.[0-9]{3}-[0-9]{2}))$";
 
     function validateCpf(cpf) {
         cpf = cpf.replace(/[^\d]/g, "");
@@ -35,7 +35,7 @@ export default function Session() {
         rest = (sum * 10) % 11;
         if ((rest === 10) || (rest === 11)) rest = 0;
         if (rest !== parseInt(cpf.substring(10, 11))) {setValidCpf(false); return}
-        {setValidCpf(true); return}
+        setValidCpf(true); return
     }
 
     function bookSeat(e) {
@@ -76,7 +76,7 @@ export default function Session() {
             .catch(error => {
                 console.log(error);
             });
-    }, []);
+    }, [id]);
 
     function setColor(state) {
         if (state === "selected") {

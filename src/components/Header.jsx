@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { useNavigate, useLocation } from 'react-router-dom';
-import backIcon from "../../assets/back-icon.png";
+import backIcon from "../assets/back-icon.png";
 
 export default function Header() {
     const navigate = useNavigate();
