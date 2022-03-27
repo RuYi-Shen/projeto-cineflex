@@ -26,8 +26,8 @@ export default function Home() {
                         const {posterURL, title, id} = movie;
                         const link = `/movie/${id}`;
                         return (
-                            <Link to={link}>
-                                <div className="poster" key={id}>
+                            <Link to={link} key={id}>
+                                <div className="poster">
                                     <img src={posterURL} alt={title} />
                                 </div>
                             </Link>

@@ -1,17 +1,39 @@
 import styled from 'styled-components';
+import { useState, useEffect } from 'react';
 import { useLocation, Link } from 'react-router-dom';
+import Loading from '../../components/Loading';
+import axios from "axios";
 
 export default function Success() {
     const {state} = useLocation();
     const {name, cpf, session, seats} = state;
     const {name:time, day, movie} = session;
 
+    const [booked, setBooked] = useState(false);
+
     function formatCpf(cpf){
         cpf = cpf.replace(/[^\d]/g, "");
         return cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
     }
 
-    return (
+    useEffect(() => {
+        let ids = session.seats.map(seat=>{if(seat.name === "selected"){return seat.id}});
+        axios.post(`https://mock-api.driven.com.br/api/v5/cineflex/seats/book-many`, 
+            {
+                ids: ids,
+                name: name,
+                cpf: cpf.replace(/[^\d]/g, "")
+            })
+            .then(response => {
+                setBooked(true);
+            })
+            .catch(error => {
+                console.log(error);
+                alert("Erro ao reservar os assentos");
+            });
+    }, []);
+
+    return booked ? (
         <Main>
             <h2>Pedido feito com sucesso!</h2>
             <section className="checkout-info">
@@ -34,6 +56,9 @@ export default function Success() {
                 <button>Voltar pra Home</button>
             </Link>
         </Main>        
+    ) : 
+    (
+        <Loading />
     )
 }
 

@@ -38,7 +38,7 @@ export default function Session() {
         {setValidCpf(true); return}
     }
 
-    function reserveSeat(e) {
+    function bookSeat(e) {
         e.preventDefault();
         if (validCpf && selectedSeats.length > 0) {
             navigate("../success", {state: { name: name, cpf: cpf , session: sessionInfo, seats: [...selectedSeats].sort(function(a, b){return a-b})}});
@@ -127,7 +127,7 @@ export default function Session() {
                     <p>Indisponível</p>
                 </div>
             </div>
-            <form onSubmit={reserveSeat}>
+            <form onSubmit={bookSeat}>
                 <label htmlFor="name">Nome do comprador:</label>
                 <input type="text" id="name" name="name" maxLength="40" minLength="3" pattern={nameRegex} placeholder="Digite seu nome..." required value={name} onChange={e => setName(e.target.value)} />
                 <label htmlFor="cpf">CPF do comprador:</label>
@@ -140,7 +140,7 @@ export default function Session() {
                     <button type="submit">Reservar assento(s)</button>
                 </div>
             </form>
-            <Footer movieInfo={sessionInfo.movie} />
+            <Footer movieInfo={sessionInfo.movie} sessionInfo={sessionInfo} />
         </Main>
     ) :
         (
